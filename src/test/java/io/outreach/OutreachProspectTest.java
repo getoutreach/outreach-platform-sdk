@@ -1,4 +1,4 @@
-package outreach;
+package io.outreach;
 
 import static org.junit.Assert.*;
 
