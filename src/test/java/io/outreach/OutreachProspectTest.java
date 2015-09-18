@@ -74,6 +74,7 @@ public class OutreachProspectTest {
             + "  }"
             + "}}").toString();
 
+            // Example response: {"data":{"attributes":{"created":"2015-09-18T22:28:10.959Z","updated":"2015-09-18T22:28:10.959Z"},"id":48438,"type":"prospect"}}
             System.out.println(outreach.addProspect(prospect));
         } catch (ParseException e) {
 			// TODO Auto-generated catch block
