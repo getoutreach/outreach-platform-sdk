@@ -20,7 +20,7 @@ public class OutreachProspectTest {
               "1111111111111111111111111111111111111111111111111111111111111111", // App identifier
               "1111111111111111111111111111111111111111111111111111111111111111", // App secret key
               "https://www.example.com");                                         // App return-to URI
-        outreach = new Outreach(app_creds, this.AUTHORIZATION_CODE);
+        outreach = new Outreach(app_creds, this.AUTHORIZATION_CODE, TrustStore.get());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class OutreachProspectTest {
             + "      \"locality\" :\"test-company-locality\""
             + "    },"
             + "    \"contact\": {"
-            + "      \"timezone\": \"test-contact-timezone\","
+            + "      \"timezone\": \"Pacific/Honolulu\","
             + "      \"email\" : {"
             + "        \"personal\": \"test-contact-email-personal@test.com\","
             + "        \"work\": \"test-contact-email-work@test.com\""
@@ -65,15 +65,16 @@ public class OutreachProspectTest {
             + "      \"title\": \"test-personal-title\""
             + "    },"
             + "    \"social\": {"
-            + "      \"facebook\": \"test-social-facebook\","
-            + "      \"linkedin\": \"test-social-linkedin\","
-            + "      \"plus\": \"test-social-plus\","
-            + "      \"quora\": \"test-social-quora\","
-            + "      \"twitter\": \"test-social-twitter\""
+            + "      \"facebook\": \"http://www.facebook.com/test\","
+            + "      \"linkedin\": \"http://www.linkedin.com/test\","
+            + "      \"plus\": \"http://plus.google.com/test\","
+            + "      \"quora\": \"http://www.quora.com/test\","
+            + "      \"twitter\": \"http://www.twitter.com/test\""
             + "    }"
             + "  }"
             + "}}").toString();
 
+            // Example response: {"data":{"attributes":{"created":"2015-09-18T22:28:10.959Z","updated":"2015-09-18T22:28:10.959Z"},"id":48438,"type":"prospect"}}
             System.out.println(outreach.addProspect(prospect));
         } catch (ParseException e) {
 			// TODO Auto-generated catch block
