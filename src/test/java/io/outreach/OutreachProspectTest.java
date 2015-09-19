@@ -20,7 +20,7 @@ public class OutreachProspectTest {
               "1111111111111111111111111111111111111111111111111111111111111111", // App identifier
               "1111111111111111111111111111111111111111111111111111111111111111", // App secret key
               "https://www.example.com");                                         // App return-to URI
-        outreach = new Outreach(app_creds, this.AUTHORIZATION_CODE);
+        outreach = new Outreach(app_creds, this.AUTHORIZATION_CODE, TrustStore.get());
     }
 
     @Test
