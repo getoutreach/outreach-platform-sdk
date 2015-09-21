@@ -21,7 +21,7 @@ public class TrustStore {
 	}
 
 	private static InputStream stream() throws IOException {
-		return new FileInputStream("/Users/dc/Projects/outreach-platform-sdk/src/test/resources/outreach.truststore");
+		return new FileInputStream("src/test/resources/outreach.truststore");
 	}
 
 }
