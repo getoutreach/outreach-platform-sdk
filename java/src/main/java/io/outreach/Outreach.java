@@ -80,7 +80,7 @@ public class Outreach {
 			// initial exchange.
 			this.fetchAccessToken();
 
-			final HttpsURLConnection connection = connectTo("https://api.outreach.io/v1/prospect");
+			final HttpsURLConnection connection = connectTo("https://stagingapi.outreach.io/1.0/prospect");
 
 			connection.setDoOutput(true);
 			connection.setRequestMethod("POST");
@@ -91,7 +91,7 @@ public class Outreach {
 				writer.write(prospect);
 			}
 
-			System.out.println("reason: " + connection.getHeaderField("reason")); // TODO:
+			System.out.println("reason: " + connection.getHeaderField("x-reason")); // TODO:
 																					// Remove
 
 			final JSONObject response;
@@ -136,7 +136,7 @@ public class Outreach {
 	 */
 	private void fetchAccessToken() {
 		try {
-			final HttpsURLConnection connection = connectTo("https://api.outreach.io/oauth/token");
+			final HttpsURLConnection connection = connectTo("https://stagingapi.outreach.io/oauth/token");
 
 			connection.setDoOutput(true);
 			connection.setRequestMethod("POST");

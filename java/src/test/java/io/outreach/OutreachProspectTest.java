@@ -2,25 +2,34 @@ package io.outreach;
 
 import static org.junit.Assert.*;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.junit.Before;
 import org.junit.Test;
 
 public class OutreachProspectTest {
-    // NOTE: This needs to be changed between tests, since it expires after it's initially traded for a bearer token.
-    private final String AUTHORIZATION_CODE = "1111111111111111111111111111111111111111111111111111111111111111";
-
     private Outreach outreach;
 
     @Before
     public void init() {
-        /** @todo Populate these values with your OAuth application credentials. */
-        Outreach.ApplicationCredentials app_creds = new Outreach.ApplicationCredentials(
-              "1111111111111111111111111111111111111111111111111111111111111111", // App identifier
-              "1111111111111111111111111111111111111111111111111111111111111111", // App secret key
-              "https://www.example.com");                                         // App return-to URI
-        outreach = new Outreach(app_creds, this.AUTHORIZATION_CODE, TrustStore.get());
+    	try (FileInputStream propertiesFile = new FileInputStream("src/test/resources/application.properties")) {
+	    	Properties appProperties = new Properties();
+	    	appProperties.load(propertiesFile);
+	    	
+	    	Outreach.ApplicationCredentials app_creds = new Outreach.ApplicationCredentials(
+	              appProperties.getProperty("app_identifier"),
+	              appProperties.getProperty("app_secret_key"),
+	              appProperties.getProperty("app_return_url"));
+	    	System.out.println(appProperties.getProperty("app_return_url"));
+	        outreach = new Outreach(app_creds, appProperties.getProperty("authorize_code"), TrustStore.get());
+    	} catch (IOException e) {
+    		assertTrue(false);
+    		return;
+    	}
     }
 
     @Test
@@ -75,15 +84,10 @@ public class OutreachProspectTest {
             + "}}").toString();
 
             // Example response: {"data":{"attributes":{"created":"2015-09-18T22:28:10.959Z","updated":"2015-09-18T22:28:10.959Z"},"id":48438,"type":"prospect"}}
-            System.out.println(outreach.addProspect(prospect));
+            assertNotNull(outreach.addProspect(prospect).get("data"));
         } catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
-    
-	@Test
-    public void assertion() {
-        assertNotNull(null);
     }
 }
