@@ -1,7 +1,7 @@
 Authorization
 -------------
 
-Currently the Outreach Platform only supports 3rd party OAuth access, which allows you as an application developer to request the ability to perform actions on behalf of a mutual customer.  For more information on the OAuth 2.0 (IETF RFC 6749), please read the [specification](https://tools.ietf.org/html/rfc6749).  This document provides a high-level view of the authorization flow, as well as the various endpoints which will grant you access to the public-facing API.
+Currently the Outreach Platform only supports 3rd party OAuth access, which allows you as an application developer to request the ability to perform actions on behalf of a mutual customer.  For more information on OAuth 2.0 (IETF RFC 6749), please read the [specification](https://tools.ietf.org/html/rfc6749).  This document provides a high-level view of the authorization flow, as well as the various endpoints which will grant you access to the public-facing API.
 
 ### Provision an Application
 
@@ -9,16 +9,16 @@ Currently the Outreach Platform only supports 3rd party OAuth access, which allo
 >           and can only be accessed by an Outreach administrator, please reach
 >           out to the sales@ team if you'd like to request access.
 
-You'll first need to generate a set of application credentials representing you, the relying party.  Go to https://api.outreach.io/oauth/applications/new and enter the following information:
-* Application name which will be shown to customers during authorization, this should be meaningful and informative.
-* Redirect URI(s), which are a whitelist of return-to addresses which you own; following the authorization flow your customers will be redirected here.
-* Scopes, which are a space delimited list of the following permissions (of which your authorization flow may request a subset of your application's available scopes):
-..* create_prospect
-..* read_prospect
-..* update_prospect
-..* create_sequence
-..* read_sequence
-..* update_sequence
+You'll first need to generate a set of application credentials representing you, the relying party.  Go to [here](https://api.outreach.io/oauth/applications/new) and enter the following information:
+* **Application Name** which will be shown to customers during authorization, this should be meaningful and informative.
+* **Redirect URI**(s), which are a whitelist of return-to addresses which you own; following the authorization flow your customers will be redirected here.
+* **Scope**(s), which are a space delimited list of the following permissions (of which your authorization flow may request a subset of your application's available scopes):
+  * create_prospect
+  * read_prospect
+  * update_prospect
+  * create_sequence
+  * read_sequence
+  * update_sequence
 
 Once this is complete you'll be given an application identifier and secret.  No Outreach employee will _ever_ ask you for this information, keep these credentials secure!
 
@@ -67,9 +67,9 @@ POST https://api.outreach.io/oauth/token
   refresh_token=<i>&lt;Refresh_Token&gt;</i>
 </pre>
 
-### Make an Authenticated Request
+### Make an Authorized Request
 
-You now have all of the information and credentials necessary to make an authenticated API request.  Simply make a request to the desired API endpoint and include the following [request header](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.8):
+You now have all of the information and credentials necessary to make an authorized API request on behalf of a customer.  Simply make a request to the desired API endpoint and include the following [request header](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.8):
 
 <pre>
 Authorization=Bearer <i>&lt;Access_Token&gt;</i>;
