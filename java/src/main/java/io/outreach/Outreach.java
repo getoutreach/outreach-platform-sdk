@@ -148,8 +148,7 @@ public class Outreach {
 
             try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
                 writer.write("client_id=" + this.applicationCredentials.APP_IDENTIFIER + "&client_secret="
-                           + this.applicationCredentials.APP_SECRET_KEY + "&redirect_uri="
-                           + this.applicationCredentials.APP_RETURN_URI + token);
+                           + this.applicationCredentials.APP_SECRET_KEY + token);
             }
 
             if (connection.getResponseCode() == 401) {
