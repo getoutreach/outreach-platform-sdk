@@ -1,4 +1,4 @@
-package io.outreach;
+package io.outreach.security;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class TrustStore {
 	}
 
 	private static InputStream stream() throws IOException {
-		return new FileInputStream("src/test/resources/outreach.truststore");
+		return new FileInputStream("src/main/resources/outreach.truststore");
 	}
 
 }

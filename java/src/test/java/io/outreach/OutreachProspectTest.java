@@ -12,6 +12,8 @@ import org.json.simple.parser.ParseException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import io.outreach.security.TrustStore;
+
 public class OutreachProspectTest {
     private static Outreach outreach;
 
