@@ -26,7 +26,12 @@ Once this is complete you'll be given an application identifier and secret.  No 
 
 In order to perform actions on a customer's behalf you'll first need to request permission from that customer.  Simply send them to the Authorization server given the following URL format:
 
-     https://api.outreach.io/oauth/authorize?client_id=<_Application\_Identifier_>&redirect_uri=<_Application\_Redirect\_URI_>&response_type=code&scope=<_Permission1_ _Permission2_ _..._>
+<pre>
+https://api.outreach.io/oauth/authorize?client_id=<i>&lt;Application_Identifier&gt;</i>
+                                       &redirect_uri=<i>&lt;Application_Redirect_URI&gt;</i>
+                                       &response_type=code
+                                       &scope=<i>&lt;Permission1 Permission2 ...&gt;</i>
+</pre>
 
 When the customer clicks 'Authorize' they'll be redirected to your Application_Redirect_URI (which must be in the whitelist specified when you created the application) with a _code_ query parameter which contains the authorization code associated with that customer.
 
@@ -38,26 +43,34 @@ When the customer clicks 'Authorize' they'll be redirected to your Application_R
 
 You can't use an authorization code to make API requests, yet.  Authorization codes are short-lived and not considered to be secure, once you recieve one you'll need to request an access credential given the code and your application's identifier and secret credentials.  Make a request to the following endpoint:
 
-     POST https://api.outreach.io/oauth/token
-     
-     client_id=<_Application\_Identifier_>
-     client_secret=<_Application\_Secret_>
-     redirect_uri=<_Application\_Redirect\_URI_>
-     grant_type=authorization\_code
-     code=<_Authorization\_Code_>
+<pre>
+POST https://api.outreach.io/oauth/token
+
+<b>parameters</b>:
+  client_id=<i>&lt;Application_Identifier&gt;</i>
+  client_secret=<i>&lt;Application_Secret&gt;</i>
+  redirect_uri=<i>&lt;Application_Redirect_URI&gt;</i>
+  grant_type=authorization_code
+  code=<i>&lt;Authorization_Code&gt;</i>
+</pre>
 
 This will return a json payload with _access\_token_, _refresh\_token_, and _expires_ attributes.  The access token can be used for API requests but will expire after the returned TTL (or if the customer revokes their authorization grant); following which the access token is no longer valid and must be refreshed given the returned refresh token.  In order to generate a new access credential following expiration, you'll need to make a similar request as above but instead of providing the authorization code you provide the refresh token:
 
-     POST https://api.outreach.io/oauth/token
-     
-     client_id=<_Application\_Identifier_>
-     client_secret=<_Application\_Secret_>
-     redirect_uri=<_Application\_Redirect\_URI_>
-     grant_type=refresh_token
-     refresh_token=<_Refresh\_Token_>
+<pre>
+POST https://api.outreach.io/oauth/token
+
+<b>parameters</b>:
+  client_id=<i>&lt;Application_Identifier&gt;</i>
+  client_secret=<i>&lt;Application_Secret&gt;</i>
+  redirect_uri=<i>&lt;Application_Redirect_URI&gt;</i>
+  grant_type=refresh_token
+  refresh_token=<i>&lt;Refresh_Token&gt;</i>
+</pre>
 
 ### Make an Authenticated Request
 
 You now have all of the information and credentials necessary to make an authenticated API request.  Simply make a request to the desired API endpoint and include the following [request header](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.8):
 
-     Authorization=Bearer <_Access\_Token_>;
+<pre>
+Authorization=Bearer <i>&lt;Access_Token&gt;</i>;
+</pre>
