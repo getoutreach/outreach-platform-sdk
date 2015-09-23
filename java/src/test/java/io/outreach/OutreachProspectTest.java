@@ -6,35 +6,35 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class OutreachProspectTest {
-    private Outreach outreach;
+    private static Outreach outreach;
 
-    @Before
-    public void init() {
-    	try (FileInputStream propertiesFile = new FileInputStream("src/test/resources/application.properties")) {
-	    	Properties appProperties = new Properties();
-	    	appProperties.load(propertiesFile);
-	    	
-	    	Outreach.ApplicationCredentials app_creds = new Outreach.ApplicationCredentials(
-	              appProperties.getProperty("app_identifier"),
-	              appProperties.getProperty("app_secret_key"),
-	              appProperties.getProperty("app_return_url"));
-	    	System.out.println(appProperties.getProperty("app_return_url"));
-	        outreach = new Outreach(app_creds, appProperties.getProperty("authorize_code"), TrustStore.get());
-    	} catch (IOException e) {
-    		assertTrue(false);
-    		return;
-    	}
+    @BeforeClass
+    public static void init() {
+        try (FileInputStream propertiesFile = new FileInputStream("src/test/resources/application.properties")) {
+            Properties appProperties = new Properties();
+            appProperties.load(propertiesFile);
+
+            Outreach.ApplicationCredentials app_creds = new Outreach.ApplicationCredentials(
+                  appProperties.getProperty("app_identifier"),
+                  appProperties.getProperty("app_secret_key"),
+                  appProperties.getProperty("app_return_url"));
+            outreach = new Outreach(app_creds, appProperties.getProperty("authorize_code"), TrustStore.get());
+        } catch (IOException e) {
+            assertTrue(false);
+            return;
+        }
     }
 
     @Test
     public void createProspectAllFields() {
-    	JSONParser parser = new JSONParser();
+        JSONParser parser = new JSONParser();
 
         try {
             String prospect = parser.parse(
@@ -84,10 +84,65 @@ public class OutreachProspectTest {
             + "}}").toString();
 
             // Example response: {"data":{"attributes":{"created":"2015-09-18T22:28:10.959Z","updated":"2015-09-18T22:28:10.959Z"},"id":48438,"type":"prospect"}}
-            assertNotNull(outreach.addProspect(prospect).get("data"));
+            JSONObject response = outreach.addProspect(prospect);
+            assertNotNull(response);
+
+            JSONObject data = (JSONObject) response.get("data");
+            assertNotNull(data);
+            assertNotNull(data.get("id"));
         } catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            assertTrue(false);
+        }
+    }
+
+    @Test
+    public void createProspectMinimal() {
+        JSONParser parser = new JSONParser();
+
+        try {
+            String prospect = parser.parse(
+              "{\"data\": {"
+            + "  \"attributes\": {"
+            + "    \"personal\": {"
+            + "      \"name\": {"
+            + "        \"first\": \"Tester\","
+            + "        \"last\": \"McTest\""
+            + "      }"
+            + "    }"
+            + "  }"
+            + "}}").toString();
+
+            // Example response: {"data":{"attributes":{"created":"2015-09-18T22:28:10.959Z","updated":"2015-09-18T22:28:10.959Z"},"id":48438,"type":"prospect"}}
+            JSONObject response = outreach.addProspect(prospect);
+            assertNotNull(response);
+
+            JSONObject data = (JSONObject) response.get("data");
+            assertNotNull(data);
+            assertNotNull(data.get("id"));
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+    }
+
+    @Test
+    public void createProspectNoInput() {
+        JSONParser parser = new JSONParser();
+
+        try {
+            String prospect = parser.parse(
+              "{\"data\": {"
+            + "  \"attributes\": {"
+            + "  }"
+            + "}}").toString();
+
+            // Example response: {"data":{"attributes":{"created":"2015-09-18T22:28:10.959Z","updated":"2015-09-18T22:28:10.959Z"},"id":48438,"type":"prospect"}}
+            JSONObject response = outreach.addProspect(prospect);
+            assertNotNull(response);
+
+            JSONObject error = (JSONObject) response.get("error");
+            assertNotNull(error);
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
     }
 }
