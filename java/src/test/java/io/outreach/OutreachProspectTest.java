@@ -147,4 +147,43 @@ public class OutreachProspectTest {
             assertTrue(false);
         }
     }
+
+    @Test
+    public void getProspectById() {
+        JSONParser parser = new JSONParser();
+        int createdProspectId = -1;
+
+        try {
+            String prospect = parser.parse(
+              "{\"data\": {"
+            + "  \"attributes\": {"
+            + "    \"personal\": {"
+            + "      \"name\": {"
+            + "        \"first\": \"Fetch\","
+            + "        \"last\": \"ById\""
+            + "      }"
+            + "    }"
+            + "  }"
+            + "}}").toString();
+
+            // Example response: {"data":{"attributes":{"created":"2015-09-18T22:28:10.959Z","updated":"2015-09-18T22:28:10.959Z"},"id":48438,"type":"prospect"}}
+            JSONObject response = outreach.addProspect(prospect);
+            assertNotNull(response);
+
+            JSONObject data = (JSONObject) response.get("data");
+            assertNotNull(data);
+            assertNotNull(data.get("id"));
+
+            createdProspectId = Integer.parseInt(data.get("id").toString());
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+
+        JSONObject response = outreach.getProspect(createdProspectId);
+
+        assertNotNull(response);
+        JSONObject data = (JSONObject) response.get("data");
+        assertNotNull(data);
+        assertNotNull(data.get("attributes")); // ...
+    }
 }

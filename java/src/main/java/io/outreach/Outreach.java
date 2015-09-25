@@ -79,7 +79,7 @@ public class Outreach {
             // code and subsequent requests will use the refresh token from the initial exchange.
             this.fetchAccessToken();
 
-            final HttpsURLConnection connection = connectTo("https://api.outreach.io/1.0/prospect");
+            final HttpsURLConnection connection = connectTo("https://api.outreach.io/1.0/prospects");
 
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
@@ -89,6 +89,69 @@ public class Outreach {
             try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
                 writer.write(prospect);
             }
+
+            final JSONObject response;
+            try (BufferedReader readStream = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                response = (JSONObject) JSONValue.parse(readStream);
+            }
+
+            return response;
+        } catch (Throwable throwable) {
+            throw new OutreachSecurityException(throwable);
+        }
+    }
+
+    /**
+     * Allows fetching a single prospect given it's identifier
+     *
+     * @param prospectId
+     * @return a JSONObject blob of the response, containing the prospects.
+     */
+    public JSONObject getProspect(final int prospectId) {
+        try {
+            // Refresh access token on each request, the first request will use the authorization
+            // code and subsequent requests will use the refresh token from the initial exchange.
+            this.fetchAccessToken();
+
+            final HttpsURLConnection connection = connectTo("https://api.outreach.io/1.0/prospects/" + prospectId);
+
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
+
+            final JSONObject response;
+            try (BufferedReader readStream = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                response = (JSONObject) JSONValue.parse(readStream);
+            }
+
+            return response;
+        } catch (Throwable throwable) {
+            throw new OutreachSecurityException(throwable);
+        }
+    }
+
+    /**
+     * Allows fetching a single prospect given it's identifier
+     *
+     * @param firstName
+     * @param lastName
+     * @param companyName
+     * @param email
+     * @return a JSONObject blob of the response, containing the prospects.
+     */
+    public JSONObject getProspect(final String firstName, final String lastName, final String companyName, final String email, final int page) {
+        try {
+            // Refresh access token on each request, the first request will use the authorization
+            // code and subsequent requests will use the refresh token from the initial exchange.
+            this.fetchAccessToken();
+
+            final HttpsURLConnection connection = connectTo("https://api.outreach.io/1.0/prospects?page[number]" + page +
+                                                                                                         "&filter[personal/name/first]=" + firstName +
+                                                                                                         "&filter[personal/name/last]=" + lastName +
+                                                                                                         "&filter[contact/email/work]=" + email +
+                                                                                                         "&filter[company/name]" + companyName);
+
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
 
             final JSONObject response;
             try (BufferedReader readStream = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
