@@ -1,6 +1,9 @@
 package io.outreach;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -9,6 +12,7 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
+import java.util.Properties;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -16,6 +20,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import io.outreach.exception.OutreachSecurityException;
+import io.outreach.security.TrustStore;
 import io.outreach.security.TrustedHostnameVerifier;
 import io.outreach.security.TrustedSSLSocketFactory;
 
@@ -49,6 +54,8 @@ public class Outreach {
     private String refreshBearer = null;
 
     private final KeyStore trustStore;
+    private String apiEndpoint = "";
+    private String authEndpoint = "";
 
     public Outreach(final ApplicationCredentials applicationCredentials, final String authorizationCode) {
         this(applicationCredentials, authorizationCode, null);
@@ -60,8 +67,57 @@ public class Outreach {
         this.applicationCredentials = applicationCredentials;
         this.authorizationCode = authorizationCode;
         this.trustStore = trustStore;
+        
+        try (FileInputStream propertiesFile = new FileInputStream("src/main/resources/api.properties")) {
+            Properties apiProperties = new Properties();
+            apiProperties.load(propertiesFile);
+
+            this.authEndpoint = apiProperties.getProperty("endpoint");
+            this.apiEndpoint = this.authEndpoint + "/" + apiProperties.getProperty("version");
+        } catch (IOException e) {
+            return;
+        }
     }
 
+    /**
+     * Allows adding a single prospect for the associated account to the local
+     * bearer credential.
+     * 
+     * @param prospectId
+     * @param prospectAttributes
+     *            the JSONObject API-formatted request containing the prospect
+     *            attributes to be modified.
+     * @return a JSONObject blob of the response, containing the prospect metadata.
+     */
+    public JSONObject modifyProspect(final int prospectId, final String prospectAttributes) {
+        try {
+            // Refresh access token on each request, the first request will use the authorization
+            // code and subsequent requests will use the refresh token from the initial exchange.
+            this.fetchAccessToken();
+
+            final HttpsURLConnection connection = connectTo(this.apiEndpoint + "/prospects/" + prospectId);
+
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("X-HTTP-Method-Override", "PATCH"); // Patch isn't supported in Java's HTTPConnection
+            connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
+                writer.write(prospectAttributes);
+            }
+
+            final JSONObject response;
+            try (BufferedReader readStream = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                response = (JSONObject) JSONValue.parse(readStream);
+            }
+
+            return response;
+        } catch (Throwable throwable) {
+            throw new OutreachSecurityException(throwable);
+        }
+    }
+    
     /**
      * Allows adding a single prospect for the associated account to the local
      * bearer credential.
@@ -79,7 +135,7 @@ public class Outreach {
             // code and subsequent requests will use the refresh token from the initial exchange.
             this.fetchAccessToken();
 
-            final HttpsURLConnection connection = connectTo("https://api.outreach.io/1.0/prospects");
+            final HttpsURLConnection connection = connectTo(this.apiEndpoint + "/prospects");
 
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
@@ -113,7 +169,7 @@ public class Outreach {
             // code and subsequent requests will use the refresh token from the initial exchange.
             this.fetchAccessToken();
 
-            final HttpsURLConnection connection = connectTo("https://api.outreach.io/1.0/prospects/" + prospectId);
+            final HttpsURLConnection connection = connectTo(this.apiEndpoint + "/prospects/" + prospectId);
 
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
@@ -130,25 +186,54 @@ public class Outreach {
     }
 
     /**
-     * Allows fetching a single prospect given it's identifier
+     * Allows fetching a set of prospects given various query filters.
      *
      * @param firstName
      * @param lastName
      * @param companyName
      * @param email
+     * @param page
      * @return a JSONObject blob of the response, containing the prospects.
      */
-    public JSONObject getProspect(final String firstName, final String lastName, final String companyName, final String email, final int page) {
+    public JSONObject getProspects(final String firstName, final String lastName, final String companyName, final String email, final int page) {
         try {
             // Refresh access token on each request, the first request will use the authorization
             // code and subsequent requests will use the refresh token from the initial exchange.
             this.fetchAccessToken();
 
-            final HttpsURLConnection connection = connectTo("https://api.outreach.io/1.0/prospects?page[number]" + page +
-                                                                                                         "&filter[personal/name/first]=" + firstName +
-                                                                                                         "&filter[personal/name/last]=" + lastName +
-                                                                                                         "&filter[contact/email/work]=" + email +
-                                                                                                         "&filter[company/name]" + companyName);
+            final HttpsURLConnection connection = connectTo(this.apiEndpoint + "/prospects?page[number]" + page +
+            		                                                           "&filter[personal/name/first]=" + firstName +
+            		                                                           "&filter[personal/name/last]=" + lastName +
+            		                                                           "&filter[contact/email/work]=" + email +
+            		                                                           "&filter[company/name]" + companyName);
+
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
+
+            final JSONObject response;
+            try (BufferedReader readStream = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                response = (JSONObject) JSONValue.parse(readStream);
+            }
+
+            return response;
+        } catch (Throwable throwable) {
+            throw new OutreachSecurityException(throwable);
+        }
+    }
+    
+    /**
+     * Allows fetching a list of sequences, sorted by name in ascending order.
+     *
+     * @param page
+     * @return a JSONObject blob of the response, containing the prospects.
+     */
+    public JSONObject getSequences(final int page) {
+        try {
+            // Refresh access token on each request, the first request will use the authorization
+            // code and subsequent requests will use the refresh token from the initial exchange.
+            this.fetchAccessToken();
+
+            final HttpsURLConnection connection = connectTo(this.apiEndpoint + "/sequences?page[number]" + page);
 
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
@@ -196,7 +281,7 @@ public class Outreach {
      */
     private void fetchAccessToken() {
         try {
-            final HttpsURLConnection connection = connectTo("https://api.outreach.io/oauth/token");
+            final HttpsURLConnection connection = connectTo(this.authEndpoint + "/oauth/token");
 
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");

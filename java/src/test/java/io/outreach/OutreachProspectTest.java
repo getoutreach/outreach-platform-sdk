@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -80,8 +81,18 @@ public class OutreachProspectTest {
             + "      \"linkedin\": \"http://www.linkedin.com/test\","
             + "      \"plus\": \"http://plus.google.com/test\","
             + "      \"quora\": \"http://www.quora.com/test\","
+            + "      \"website\": \"http://www.companywebsite.com/\","
             + "      \"twitter\": \"http://www.twitter.com/test\""
-            + "    }"
+            + "    },"
+            + "    \"custom\": ["
+            + "      \"custom-string1\","
+            + "      \"custom-string2\","
+            + "      \"custom-string3\","
+            + "      \"custom-string4\","
+            + "      \"custom-string5\","
+            + "      \"custom-string6\","
+            + "      \"custom-string7\""
+            + "    ]"
             + "  }"
             + "}}").toString();
 
@@ -185,5 +196,80 @@ public class OutreachProspectTest {
         JSONObject data = (JSONObject) response.get("data");
         assertNotNull(data);
         assertNotNull(data.get("attributes")); // ...
+    }
+    
+    @Test
+    public void modifyProspect() {
+        JSONParser parser = new JSONParser();
+        int createdProspectId = -1;
+
+        try {
+        	// Create
+            String prospect = parser.parse(
+              "{\"data\": {"
+            + "  \"attributes\": {"
+            + "    \"personal\": {"
+            + "      \"name\": {"
+            + "        \"first\": \"First\","
+            + "        \"last\": \"Last\""
+            + "      }"
+            + "    }"
+            + "  }"
+            + "}}").toString();
+
+            JSONObject response = outreach.addProspect(prospect);
+            assertNotNull(response);
+
+            JSONObject data = (JSONObject) response.get("data");
+            assertNotNull(data);
+            assertNotNull(data.get("id"));
+
+            createdProspectId = 54784; //Integer.parseInt(data.get("id").toString());
+            
+            // Modify
+            String modifiedProspect = parser.parse(
+                    "{\"data\": {"
+                  + "  \"attributes\": {"
+                  + "    \"personal\": {"
+                  + "      \"name\": {"
+                  + "        \"last\": \"ModifiedLast\""
+                  + "      }"
+                  + "    }"
+                  + "  }"
+                  + "}}").toString();
+
+            response = outreach.modifyProspect(createdProspectId, modifiedProspect);
+            System.out.println(response.toJSONString());
+            assertNotNull(response);
+            assertNotNull(response.get("data"));
+            
+            // Re-fetch
+            response = outreach.getProspect(createdProspectId);
+            
+            assertNotNull(response);
+            data = (JSONObject) response.get("data");
+            assertNotNull(data);
+            JSONObject attrs = (JSONObject) data.get("attributes");
+            assertNotNull(attrs);
+            JSONObject personal = (JSONObject) attrs.get("personal");
+            assertNotNull(personal);
+            JSONObject name = (JSONObject) personal.get("name");
+            assertNotNull(name);
+            assertEquals(name.get("first"), "First");
+            assertEquals(name.get("last"), "ModifiedLast");
+            
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+    }
+    
+    @Test
+    public void getSequences() {
+    	JSONObject response = outreach.getSequences(1);
+    	System.out.println(response.toJSONString());
+        assertNotNull(response);
+        JSONArray data = (JSONArray) response.get("data");
+        assertNotNull(data);
+        assertNotNull(data.get(0));
     }
 }
