@@ -61,22 +61,22 @@ Create a prospect given the posted JSON payload, owned by the user associated wi
         twitter:  &lt;String&gt;                 | W3C URL <a href="http://www.w3.org/Addressing/URL/url-spec.txt">format</a>, Twitter domain.
       },                                   |
       metadata: {                          |
-        source: &lt;String&gt;,                 |
+        source: &lt;String&gt;,                  |
         notes: [                           |
-          &lt;String&gt;,                      | Maximum 255 characters.
-          &lt;String&gt;                       | Maximum 255 characters.
+          &lt;String&gt;,                        | Maximum 255 characters.
+          &lt;String&gt;                         | Maximum 255 characters.
         ],                                 |
         tags: [                            |
-          &lt;String...&gt;                       |
+          &lt;String...&gt;                      |
         ],                                 |
         custom: [                          |
-          &lt;String&gt;,                      | Maximum 255 characters.
-          &lt;String&gt;,                      | Maximum 255 characters.
-          &lt;String&gt;,                      | Maximum 255 characters.
-          &lt;String&gt;,                      | Maximum 255 characters.
-          &lt;String&gt;,                      | Maximum 255 characters.
-          &lt;String&gt;,                      | Maximum 255 characters.
-          &lt;String&gt;                       | Maximum 255 characters.
+          &lt;String&gt;,                        | Maximum 255 characters.
+          &lt;String&gt;,                        | Maximum 255 characters.
+          &lt;String&gt;,                        | Maximum 255 characters.
+          &lt;String&gt;,                        | Maximum 255 characters.
+          &lt;String&gt;,                        | Maximum 255 characters.
+          &lt;String&gt;,                        | Maximum 255 characters.
+          &lt;String&gt;                         | Maximum 255 characters.
         ]                                  |
       }                                    |
     }                                      |
