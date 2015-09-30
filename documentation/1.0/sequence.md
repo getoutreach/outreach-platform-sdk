@@ -1,7 +1,7 @@
 Sequences
 ---------
 
-#### Query Sequnces
+#### Query Sequences
 
 Query all sequences for which the owner of the authorization token has visibility.  Results are paginated and ordered by ascending name.
 
