@@ -84,21 +84,30 @@ public class OutreachProspectTest {
             + "      \"website\": \"http://www.companywebsite.com/\","
             + "      \"twitter\": \"http://www.twitter.com/test\""
             + "    },"
-            + "    \"custom\": ["
-            + "      \"custom-string1\","
-            + "      \"custom-string2\","
-            + "      \"custom-string3\","
-            + "      \"custom-string4\","
-            + "      \"custom-string5\","
-            + "      \"custom-string6\","
-            + "      \"custom-string7\""
-            + "    ]"
+            + "    \"metadata\": {"
+            + "      \"tags\": [\"Tag1\", \"Tag2\"],"
+            + "      \"notes\": ["
+            + "        \"Custom long form note number one.\","
+            + "        \"Custom long form note number two.\""
+            + "      ],"
+            + "      \"source\": \"source-information\","
+            + "      \"custom\": ["
+            + "        \"custom-string1\","
+            + "        \"custom-string2\","
+            + "        \"custom-string3\","
+            + "        \"custom-string4\","
+            + "        \"custom-string5\","
+            + "        \"custom-string6\","
+            + "        \"custom-string7\""
+            + "      ]"
+            + "    }"
             + "  }"
             + "}}").toString();
 
             // Example response: {"data":{"attributes":{"created":"2015-09-18T22:28:10.959Z","updated":"2015-09-18T22:28:10.959Z"},"id":48438,"type":"prospect"}}
             JSONObject response = outreach.addProspect(prospect);
             assertNotNull(response);
+            System.out.println(response.toJSONString());
 
             JSONObject data = (JSONObject) response.get("data");
             assertNotNull(data);
@@ -151,8 +160,7 @@ public class OutreachProspectTest {
             // Example response: {"data":{"attributes":{"created":"2015-09-18T22:28:10.959Z","updated":"2015-09-18T22:28:10.959Z"},"id":48438,"type":"prospect"}}
             JSONObject response = outreach.addProspect(prospect);
             assertNotNull(response);
-
-            JSONObject error = (JSONObject) response.get("error");
+            JSONArray error = (JSONArray) response.get("errors");
             assertNotNull(error);
         } catch (ParseException e) {
             assertTrue(false);
@@ -224,7 +232,7 @@ public class OutreachProspectTest {
             assertNotNull(data);
             assertNotNull(data.get("id"));
 
-            createdProspectId = 54784; //Integer.parseInt(data.get("id").toString());
+            createdProspectId = Integer.parseInt(data.get("id").toString());
             
             // Modify
             String modifiedProspect = parser.parse(
@@ -239,7 +247,6 @@ public class OutreachProspectTest {
                   + "}}").toString();
 
             response = outreach.modifyProspect(createdProspectId, modifiedProspect);
-            System.out.println(response.toJSONString());
             assertNotNull(response);
             assertNotNull(response.get("data"));
             
@@ -265,9 +272,9 @@ public class OutreachProspectTest {
     
     @Test
     public void getSequences() {
-    	JSONObject response = outreach.getSequences(1);
-    	System.out.println(response.toJSONString());
+        JSONObject response = outreach.getSequences(1);
         assertNotNull(response);
+        System.out.println(response.toJSONString());
         JSONArray data = (JSONArray) response.get("data");
         assertNotNull(data);
         assertNotNull(data.get(0));

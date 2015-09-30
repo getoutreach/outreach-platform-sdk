@@ -1,15 +1,11 @@
 Prospects
 ---------
 
-> **ISSUE**: Currently calls to create prospects won't populate the email field.
+> **ISSUE**: Currently calls to create prospects won't populate the email or tags fields.
 >
 > **ISSUE**: Not all requried fields are strictly enforced.
 >
 > **ISSUE**: Error payloads are not yet strictly defined, their payloads differ slightly by error case.
->
-> **ISSUE**: Currently when prospects are created they are not assigned an owner.
->
-> **ISSUE**: Currently PATCH-ing prospects returns a 500 error.
 
 #### Create
 
@@ -64,15 +60,25 @@ Create a prospect given the posted JSON payload, owned by the user associated wi
         quora:    &lt;String&gt;,                | W3C URL <a href="http://www.w3.org/Addressing/URL/url-spec.txt">format</a>, Quora domain.
         twitter:  &lt;String&gt;                 | W3C URL <a href="http://www.w3.org/Addressing/URL/url-spec.txt">format</a>, Twitter domain.
       },                                   |
-      custom: [                            |
-        &lt;String&gt;,                          |
-        &lt;String&gt;,                          |
-        &lt;String&gt;,                          |
-        &lt;String&gt;,                          |
-        &lt;String&gt;,                          |
-        &lt;String&gt;,                          |
-        &lt;String&gt;                           |
-      ]                                    |
+      metadata: {                          |
+        source: &lt;String&gt;,                 |
+        notes: [                           |
+          &lt;String&gt;,                      | Maximum 255 characters.
+          &lt;String&gt;                       | Maximum 255 characters.
+        ],                                 |
+        tags: [                            |
+          &lt;String...&gt;                       |
+        ],                                 |
+        custom: [                          |
+          &lt;String&gt;,                      | Maximum 255 characters.
+          &lt;String&gt;,                      | Maximum 255 characters.
+          &lt;String&gt;,                      | Maximum 255 characters.
+          &lt;String&gt;,                      | Maximum 255 characters.
+          &lt;String&gt;,                      | Maximum 255 characters.
+          &lt;String&gt;,                      | Maximum 255 characters.
+          &lt;String&gt;                       | Maximum 255 characters.
+        ]                                  |
+      }                                    |
     }                                      |
   }                                        |
 }                                          |
