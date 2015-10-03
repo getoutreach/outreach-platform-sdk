@@ -58,10 +58,7 @@ public class OutreachProspectTest {
             + "    },"
             + "    \"contact\": {"
             + "      \"timezone\": \"Pacific/Honolulu\","
-            + "      \"email\" : {"
-            + "        \"personal\": \"test-contact-email-personal@test.com\","
-            + "        \"work\": \"test-contact-email-work@test.com\""
-            + "      },"
+            + "      \"email\" : \"test-contact-email-unique-" + System.currentTimeMillis() + "@test.com\","
             + "      \"phone\": {"
             + "        \"personal\": \"206-123-4567\","
             + "        \"work\": \"206-987-6543\""
@@ -107,7 +104,6 @@ public class OutreachProspectTest {
             // Example response: {"data":{"attributes":{"created":"2015-09-18T22:28:10.959Z","updated":"2015-09-18T22:28:10.959Z"},"id":48438,"type":"prospect"}}
             JSONObject response = outreach.addProspect(prospect);
             assertNotNull(response);
-            System.out.println(response.toJSONString());
 
             JSONObject data = (JSONObject) response.get("data");
             assertNotNull(data);
@@ -128,7 +124,7 @@ public class OutreachProspectTest {
             + "    \"personal\": {"
             + "      \"name\": {"
             + "        \"first\": \"Tester\","
-            + "        \"last\": \"McTest\""
+            + "        \"last\": \"Nameonly\""
             + "      }"
             + "    }"
             + "  }"
@@ -160,11 +156,18 @@ public class OutreachProspectTest {
             // Example response: {"data":{"attributes":{"created":"2015-09-18T22:28:10.959Z","updated":"2015-09-18T22:28:10.959Z"},"id":48438,"type":"prospect"}}
             JSONObject response = outreach.addProspect(prospect);
             assertNotNull(response);
-            JSONArray error = (JSONArray) response.get("errors");
-            assertNotNull(error);
+            assertNotNull(response.get("data"));
         } catch (ParseException e) {
             assertTrue(false);
         }
+    }
+
+    @Test
+    public void getProspectsPaging() {
+        JSONObject response = outreach.getProspects(null, null, null, null, 2);
+        JSONObject meta = (JSONObject) response.get("meta");
+        JSONObject page = (JSONObject) meta.get("page");
+        assertEquals(page.get("current").toString(), "2");
     }
 
     @Test
@@ -203,16 +206,51 @@ public class OutreachProspectTest {
         assertNotNull(response);
         JSONObject data = (JSONObject) response.get("data");
         assertNotNull(data);
-        assertNotNull(data.get("attributes")); // ...
+        assertNotNull(data.get("attributes")); // ... validate content?
     }
-    
+
+    @Test
+    public void getProspectsByEmail() {
+        JSONParser parser = new JSONParser();
+        String uniqueEmail = "test-contact-email-unique-" + System.currentTimeMillis() + "@test.com";
+
+        try {
+            String prospect = parser.parse(
+              "{\"data\": {"
+            + "  \"attributes\": {"
+            + "    \"personal\": {"
+            + "      \"name\": {"
+            + "        \"first\": \"Fetch\","
+            + "        \"last\": \"ById\""
+            + "      }"
+            + "    },"
+            + "    \"contact\": {"
+            + "      \"email\" : \"" + uniqueEmail + "\""
+            + "    }"
+            + "  }"
+            + "}}").toString();
+
+            // Example response: {"data":{"attributes":{"created":"2015-09-18T22:28:10.959Z","updated":"2015-09-18T22:28:10.959Z"},"id":48438,"type":"prospect"}}
+            JSONObject response = outreach.addProspect(prospect);
+            assertNotNull(response);
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+
+        JSONObject response = outreach.getProspects(null, null, null, uniqueEmail, 1);
+
+        assertNotNull(response);
+        JSONArray data = (JSONArray) response.get("data");
+        assertFalse(data.isEmpty());
+    }
+
     @Test
     public void modifyProspect() {
         JSONParser parser = new JSONParser();
         int createdProspectId = -1;
 
         try {
-        	// Create
+            // Create
             String prospect = parser.parse(
               "{\"data\": {"
             + "  \"attributes\": {"
@@ -233,7 +271,7 @@ public class OutreachProspectTest {
             assertNotNull(data.get("id"));
 
             createdProspectId = Integer.parseInt(data.get("id").toString());
-            
+
             // Modify
             String modifiedProspect = parser.parse(
                     "{\"data\": {"
@@ -252,7 +290,7 @@ public class OutreachProspectTest {
             
             // Re-fetch
             response = outreach.getProspect(createdProspectId);
-            
+
             assertNotNull(response);
             data = (JSONObject) response.get("data");
             assertNotNull(data);
@@ -264,17 +302,16 @@ public class OutreachProspectTest {
             assertNotNull(name);
             assertEquals(name.get("first"), "First");
             assertEquals(name.get("last"), "ModifiedLast");
-            
+
         } catch (ParseException e) {
             assertTrue(false);
         }
     }
-    
+
     @Test
     public void getSequences() {
         JSONObject response = outreach.getSequences(1);
         assertNotNull(response);
-        System.out.println(response.toJSONString());
         JSONArray data = (JSONArray) response.get("data");
         assertNotNull(data);
         assertNotNull(data.get(0));
