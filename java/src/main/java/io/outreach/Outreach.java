@@ -1,7 +1,5 @@
 package io.outreach;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -20,7 +18,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import io.outreach.exception.OutreachSecurityException;
-import io.outreach.security.TrustStore;
 import io.outreach.security.TrustedHostnameVerifier;
 import io.outreach.security.TrustedSSLSocketFactory;
 
@@ -195,18 +192,34 @@ public class Outreach {
      * @param page
      * @return a JSONObject blob of the response, containing the prospects.
      */
-    public JSONObject getProspects(final String firstName, final String lastName, final String companyName, final String email, final int page) {
+    public JSONObject getProspects(final String firstName, final String lastName, final String companyName, final String email, final Integer page) {
         try {
             // Refresh access token on each request, the first request will use the authorization
             // code and subsequent requests will use the refresh token from the initial exchange.
             this.fetchAccessToken();
 
-            final HttpsURLConnection connection = connectTo(this.apiEndpoint + "/prospects?page[number]" + page +
-            		                                                           "&filter[personal/name/first]=" + firstName +
-            		                                                           "&filter[personal/name/last]=" + lastName +
-            		                                                           "&filter[contact/email/work]=" + email +
-            		                                                           "&filter[company/name]" + companyName);
+            String query = "/prospects?";
 
+            // TODO: Fix this with something less aweful.
+            if (page != null) {
+                query += "page[number]=" + page.toString() + "&";
+            }
+            if (firstName != null) {
+                query += "filter[personal/name/first]=" + firstName + "&";
+            }
+            if (lastName != null) {
+                query += "filter[personal/name/last]=" + lastName + "&";
+            }
+            if (email != null) {
+                query += "filter[contact/email]=" + email.replaceAll("@", "%40") + "&"; // Ghetto URI encoding
+            }
+            if (companyName != null) {
+                query += "filter[company/name]=" + companyName + "&";
+            }
+
+            query = query.substring(0, query.length() - 1); // last character will always be a superfluous ? or &
+
+            final HttpsURLConnection connection = connectTo(this.apiEndpoint + query);
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
 
@@ -233,7 +246,7 @@ public class Outreach {
             // code and subsequent requests will use the refresh token from the initial exchange.
             this.fetchAccessToken();
 
-            final HttpsURLConnection connection = connectTo(this.apiEndpoint + "/sequences?page[number]" + page);
+            final HttpsURLConnection connection = connectTo(this.apiEndpoint + "/sequences?page[number]=" + page);
 
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));

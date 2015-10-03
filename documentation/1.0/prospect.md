@@ -1,8 +1,6 @@
 Prospects
 ---------
 
-> **ISSUE**: Currently calls to create prospects won't populate the email or tags fields.
->
 > **ISSUE**: Not all requried fields are strictly enforced.
 >
 > **ISSUE**: Error payloads are not yet strictly defined, their payloads differ slightly by error case.
@@ -34,10 +32,7 @@ Create a prospect given the posted JSON payload, owned by the user associated wi
       },                                   |
       contact: {                           | Required.
         timezone: &lt;String&gt;,                | Olson timezone <a href="http://www.w3.org/TR/timezone/#tzids">format</a>.
-        email: {                           | Required.
-          personal: &lt;String&gt;,              | W3C RFC822 <a href="http://www.w3.org/Protocols/rfc822/#z8">format</a>.
-          work:     &lt;String&gt;               | Required. W3C RFC822 <a href="http://www.w3.org/Protocols/rfc822/#z8">format</a>.
-        },                                 |
+        email: &lt;String&gt;,                   | Required. W3C RFC822 <a href="http://www.w3.org/Protocols/rfc822/#z8">format</a>.
         phone: {                           |
           personal: &lt;String&gt;,              |
           work:     &lt;String&gt;               |
@@ -101,7 +96,7 @@ Query a set of prospects given filters which match a subset of the prospect's at
 <hr/>
 filter[personal/name/first]=&lt;String&gt;       | Optional.
 filter[personal/name/last]=&lt;String&gt;        | Optional.
-filter[contact/email/work]=&lt;String&gt;        | Optional.
+filter[contact/email]=&lt;String&gt;             | Optional. ECMA URICompontent <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-encodeuricomponent-uricomponent">encoded</a>.
 filter[company/name]=&lt;String&gt;              | Optional.
 page[number]=&lt;Number&gt;                      | Optional, default: 1.
 </pre>
