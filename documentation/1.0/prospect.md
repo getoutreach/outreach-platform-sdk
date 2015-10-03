@@ -1,8 +1,6 @@
 Prospects
 ---------
 
-> **ISSUE**: Currently calls to create prospects won't populate the email or tags fields.
->
 > **ISSUE**: Not all requried fields are strictly enforced.
 >
 > **ISSUE**: Error payloads are not yet strictly defined, their payloads differ slightly by error case.
