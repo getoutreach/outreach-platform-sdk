@@ -76,7 +76,7 @@ Additively associate existing prospects with an existing sequence.
     }
   },
   links: {
-    state: "https://app.outreach.io/..."
+    self: "https://app.outreach.io/..."
   }
 }
 </pre>
