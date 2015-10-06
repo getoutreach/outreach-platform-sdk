@@ -27,6 +27,7 @@ Create a prospect given the posted JSON payload, owned by the user associated wi
       company: {                           |
         name:     &lt;String&gt;,                |
         type:     &lt;String&gt;,                |
+        industry: &lt;String&gt;,                |
         size:     &lt;Number&gt;,                |
         locality: &lt;String&gt;                 |
       },                                   |
