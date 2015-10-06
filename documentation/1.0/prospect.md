@@ -59,11 +59,11 @@ Create a prospect given the posted JSON payload, owned by the user associated wi
       metadata: {                          |
         source: &lt;String&gt;,                  |
         notes: [                           |
-          &lt;String&gt;,                        | Maximum 255 characters.
-          &lt;String&gt;                         | Maximum 255 characters.
+          &lt;String&gt;,                        |
+          &lt;String&gt;                         |
         ],                                 |
         tags: [                            |
-          &lt;String...&gt;                      |
+          &lt;String&gt;, ...                    |
         ],                                 |
         custom: [                          |
           &lt;String&gt;,                        | Maximum 255 characters.

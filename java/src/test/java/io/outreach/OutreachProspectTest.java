@@ -261,6 +261,20 @@ public class OutreachProspectTest {
             + "        \"last\": \"Last\""
             + "      }"
             + "    }"
+            + "    \"contact\": {"
+            + "      \"email\": \"test-contact-email-unique-" + System.currentTimeMillis() + "@test.com\""
+            + "    }"
+            + "    \"metadata\": {"
+            + "      \"custom\": ["
+            + "        \"custom-string1\","
+            + "        \"custom-string2\","
+            + "        \"custom-string3\","
+            + "        \"custom-string4\","
+            + "        \"custom-string5\","
+            + "        \"custom-string6\","
+            + "        \"custom-string7\""
+            + "      ]"
+            + "    }"
             + "  }"
             + "}}").toString();
 
@@ -355,7 +369,6 @@ public class OutreachProspectTest {
             
             JSONObject links = (JSONObject) response.get("links");
             assertNotNull(links);
-            System.out.println(links.get("self"));
             assertNotNull(links.get("self"));
         } catch (ParseException e) {
             assertTrue(false);
