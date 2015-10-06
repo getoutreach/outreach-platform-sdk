@@ -53,6 +53,7 @@ public class OutreachProspectTest {
             + "    \"company\": {"
             + "      \"name\": \"test-company-name\","
             + "      \"type\": \"test-company-type\","
+            + "      \"industry\": \"test-company-industry\","
             + "      \"size\": \"test-company-size\","
             + "      \"locality\" :\"test-company-locality\""
             + "    },"
@@ -241,7 +242,7 @@ public class OutreachProspectTest {
 
         assertNotNull(response);
         JSONArray data = (JSONArray) response.get("data");
-        assertFalse(data.isEmpty());
+        assertFalse(data.isEmpty()); // NOTE: There's sometimes a consistency race between creation and fetch where unique email doesn't show up.
     }
 
     @Test
@@ -307,6 +308,59 @@ public class OutreachProspectTest {
             assertTrue(false);
         }
     }
+    
+    @Test
+    public void addProspectToSequence() {
+        JSONParser parser = new JSONParser();
+        int createdProspectId = -1;
+
+        try {
+            // Create
+            String prospect = parser.parse(
+              "{\"data\": {"
+            + "  \"attributes\": {"
+            + "    \"personal\": {"
+            + "      \"name\": {"
+            + "        \"first\": \"Sequence\","
+            + "        \"last\": \"Tetser\""
+            + "      }"
+            + "    }"
+            + "  }"
+            + "}}").toString();
+
+            JSONObject response = outreach.addProspect(prospect);
+            assertNotNull(response);
+
+            JSONObject data = (JSONObject) response.get("data");
+            assertNotNull(data);
+            assertNotNull(data.get("id"));
+
+            createdProspectId = Integer.parseInt(data.get("id").toString());
+
+            // Add to sequence
+            String payload = parser.parse(
+                    "{\"data\": {"
+                  + "  \"relationships\": {"
+                  + "    \"prospects\": [{"
+                  + "      \"data\": {"
+                  + "        \"id\": \"" + createdProspectId + "\""
+                  + "      }"
+                  + "    }]"
+                  + "  }"
+                  + "}}").toString();
+
+            response = outreach.addProspectsToSequence(263, payload); // NOTE: Hardcoded sequence was manually created in staging
+            assertNotNull(response);
+            assertNotNull(response.get("data"));
+            
+            JSONObject links = (JSONObject) response.get("links");
+            assertNotNull(links);
+            System.out.println(links.get("self"));
+            assertNotNull(links.get("self"));
+        } catch (ParseException e) {
+            assertTrue(false);
+        }
+    }
 
     @Test
     public void getSequences() {
@@ -320,7 +374,6 @@ public class OutreachProspectTest {
     @Test
     public void getInfo() {
     	JSONObject response = outreach.getInfo();
-    	System.out.println(response);
     	assertNotNull(response);
     	JSONObject meta = (JSONObject) response.get("meta");
     	assertNotNull(meta);

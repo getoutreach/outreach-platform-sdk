@@ -10,6 +10,7 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Properties;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -250,6 +251,43 @@ public class Outreach {
 
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
+
+            final JSONObject response;
+            try (BufferedReader readStream = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                response = (JSONObject) JSONValue.parse(readStream);
+            }
+
+            return response;
+        } catch (Throwable throwable) {
+            throw new OutreachSecurityException(throwable);
+        }
+    }
+    
+    /**
+     * Allows updating a sequence to additively associate a set of prospects.
+     * 
+     * @param sequenceId
+     * @param payload
+     *            the JSONObject API-formatted request containing the prospects to be added.
+     * @return a JSONObject blob of the response, containing the batch metadata.
+     */
+    public JSONObject addProspectsToSequence(final int sequenceId, final String payload) {
+        try {
+            // Refresh access token on each request, the first request will use the authorization
+            // code and subsequent requests will use the refresh token from the initial exchange.
+            this.fetchAccessToken();
+
+            final HttpsURLConnection connection = connectTo(this.apiEndpoint + "/sequences/" + sequenceId);
+
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("X-HTTP-Method-Override", "PATCH"); // Patch isn't supported in Java's HTTPConnection
+            connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
+                writer.write(payload);
+            }
 
             final JSONObject response;
             try (BufferedReader readStream = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
