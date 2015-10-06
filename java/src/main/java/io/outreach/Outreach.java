@@ -261,6 +261,33 @@ public class Outreach {
             throw new OutreachSecurityException(throwable);
         }
     }
+    
+    /**
+     * Allows fetching metadata associated with the bound authorization token
+     *
+     * @return a JSONObject blob of the response, containing the user email and application metadata.
+     */
+    public JSONObject getInfo() {
+        try {
+            // Refresh access token on each request, the first request will use the authorization
+            // code and subsequent requests will use the refresh token from the initial exchange.
+            this.fetchAccessToken();
+
+            final HttpsURLConnection connection = connectTo(this.apiEndpoint + "/info");
+
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
+
+            final JSONObject response;
+            try (BufferedReader readStream = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                response = (JSONObject) JSONValue.parse(readStream);
+            }
+
+            return response;
+        } catch (Throwable throwable) {
+            throw new OutreachSecurityException(throwable);
+        }
+    }
 
     private HttpsURLConnection connectTo(String urlString) throws MalformedURLException,
                                                                   IOException,

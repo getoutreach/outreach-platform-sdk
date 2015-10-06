@@ -316,4 +316,16 @@ public class OutreachProspectTest {
         assertNotNull(data);
         assertNotNull(data.get(0));
     }
+    
+    @Test
+    public void getInfo() {
+    	JSONObject response = outreach.getInfo();
+    	System.out.println(response);
+    	assertNotNull(response);
+    	JSONObject meta = (JSONObject) response.get("meta");
+    	assertNotNull(meta);
+    	JSONObject user = (JSONObject) meta.get("user");
+    	assertNotNull(user);
+    	assertNotNull(user.get("email"));
+    }
 }
