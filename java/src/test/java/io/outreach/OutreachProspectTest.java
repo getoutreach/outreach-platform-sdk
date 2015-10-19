@@ -321,7 +321,6 @@ public class OutreachProspectTest {
             
             // Re-fetch
             response = outreach.getProspect(createdProspectId);
-            System.out.println(response.toJSONString());
             assertNotNull(response);
             data = (JSONObject) response.get("data");
             assertNotNull(data);
