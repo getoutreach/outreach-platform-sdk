@@ -249,6 +249,7 @@ public class OutreachProspectTest {
     public void modifyProspect() {
         JSONParser parser = new JSONParser();
         int createdProspectId = -1;
+        String uniqueEmail = "test-contact-email-unique-" + System.currentTimeMillis() + "@test.com";
 
         try {
             // Create
@@ -260,11 +261,12 @@ public class OutreachProspectTest {
             + "        \"first\": \"First\","
             + "        \"last\": \"Last\""
             + "      }"
-            + "    }"
+            + "    },"
             + "    \"contact\": {"
-            + "      \"email\": \"test-contact-email-unique-" + System.currentTimeMillis() + "@test.com\""
-            + "    }"
+            + "      \"email\": \"" + uniqueEmail + "\""
+            + "    },"
             + "    \"metadata\": {"
+            + "      \"tags\": [\"Tag1\", \"Tag2\"],"
             + "      \"custom\": ["
             + "        \"custom-string1\","
             + "        \"custom-string2\","
@@ -295,6 +297,20 @@ public class OutreachProspectTest {
                   + "      \"name\": {"
                   + "        \"last\": \"ModifiedLast\""
                   + "      }"
+                  + "    },"
+                  + "    \"contact\": {"
+                  + "      \"email\": \"" + uniqueEmail + "\""
+                  + "    },"
+                  + "    \"metadata\": {"
+                  + "      \"custom\": ["
+                  + "        \"custom-modified-string1\","
+                  + "        \"custom-modified-string2\","
+                  + "        \"custom-modified-string3\","
+                  + "        \"custom-modified-string4\","
+                  + "        null,"
+                  + "        null,"
+                  + "        \"custom-modified-string7\""
+                  + "      ]"
                   + "    }"
                   + "  }"
                   + "}}").toString();
@@ -305,7 +321,6 @@ public class OutreachProspectTest {
             
             // Re-fetch
             response = outreach.getProspect(createdProspectId);
-
             assertNotNull(response);
             data = (JSONObject) response.get("data");
             assertNotNull(data);
