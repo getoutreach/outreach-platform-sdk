@@ -32,6 +32,8 @@ https://api.outreach.io/oauth/authorize?client_id=<i>&lt;Application_Identifier&
                                        &scope=<i>&lt;Permission1 Permission2 ...&gt;</i>
 </pre>
 
+> **NOTE**: The redirect URI and scope attribute values in the above endpoint must be URL-encoded.
+
 When the customer clicks 'Authorize' they'll be redirected to your Application_Redirect_URI (which must be in the whitelist specified when you created the application) with a _code_ query parameter which contains the authorization code associated with that customer.
 
 > **NOTE**: If you require other query parameters be maintained accross the
