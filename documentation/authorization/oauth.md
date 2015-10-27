@@ -13,12 +13,11 @@ You'll first need to generate a set of application credentials representing you,
 * **Application Name** which will be shown to customers during authorization, this should be meaningful and informative.
 * **Redirect URI**(s), which are a whitelist of return-to addresses which you own; following the authorization flow your customers will be redirected here.
 * **Scope**(s), which are a space delimited list of the following permissions (of which your authorization flow may request a subset of your application's available scopes):
-  * create_prospect
-  * read_prospect
-  * update_prospect
-  * create_sequence
-  * read_sequence
-  * update_sequence
+  * create_prospects
+  * read_prospects
+  * update_prospects
+  * read_sequences
+  * update_sequences
 
 Once this is complete you'll be given an application identifier and secret.  No Outreach employee will _ever_ ask you for this information, keep these credentials secure!
 
