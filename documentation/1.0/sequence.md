@@ -11,6 +11,7 @@ Query all sequences for which the owner of the authorization token has visibilit
 <b>Parameters</b>                                  <b>Constraints</b>
 <hr/>
 page[number]=&lt;Number&gt;                      | Optional, default: 1.
+page[size]=&lt;Number&gt;                        | Optional, default: 50, maximum: 50.
 </pre>
 
 <pre>
