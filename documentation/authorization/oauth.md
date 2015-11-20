@@ -18,6 +18,7 @@ You'll first need to generate a set of application credentials representing you,
   * update_prospects
   * read_sequences
   * update_sequences
+  * read_tags
 
 Once this is complete you'll be given an application identifier and secret.  No Outreach employee will _ever_ ask you for this information, keep these credentials secure!
 
