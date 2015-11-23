@@ -10,6 +10,7 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -50,6 +51,8 @@ public class Outreach {
      * authorization code has been consumed.
      */
     private String refreshBearer = null;
+    
+    private long accessExpires = 0;
 
     private final KeyStore trustStore;
     private String apiEndpoint = "";
@@ -359,7 +362,12 @@ public class Outreach {
      */
     private void fetchAccessToken() {
         try {
-            final HttpsURLConnection connection = connectTo(this.authEndpoint + "/oauth/token");
+        	// If access token hasn't expired (with some leeway for clock skew) use existing access token
+        	if (this.accessExpires - 1000 > System.currentTimeMillis()) {
+        		return;
+        	}
+
+        	final HttpsURLConnection connection = connectTo(this.authEndpoint + "/oauth/token");
 
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
@@ -389,10 +397,11 @@ public class Outreach {
 
             this.requestBearer = response.get("access_token").toString();
             this.refreshBearer = response.get("refresh_token").toString();
+            // Expires_in is defined in seconds
+            this.accessExpires = System.currentTimeMillis() + (Long.parseLong(response.get("expires_in").toString()) * 1000);
         } catch (Throwable throwable) {
             throw new OutreachSecurityException(throwable);
         }
-
     }
 
     public static class ApplicationCredentials {
