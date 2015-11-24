@@ -239,7 +239,6 @@ public class OutreachProspectTest {
         }
 
         JSONObject response = outreach.getProspects(null, null, null, uniqueEmail, 1);
-
         assertNotNull(response);
         JSONArray data = (JSONArray) response.get("data");
         assertFalse(data.isEmpty()); // NOTE: There's sometimes a consistency race between creation and fetch where unique email doesn't show up.
