@@ -96,13 +96,10 @@ public class Outreach {
             // code and subsequent requests will use the refresh token from the initial exchange.
             this.fetchAccessToken();
 
-            final HttpsURLConnection connection = connectTo(this.apiEndpoint + "/prospects/" + prospectId);
+            final HttpsURLConnection connection = authorizedConnection("POST", this.apiEndpoint + "/prospects/" + prospectId);
 
             connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
             connection.setRequestProperty("X-HTTP-Method-Override", "PATCH"); // Patch isn't supported in Java's HTTPConnection
-            connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
-            connection.setRequestProperty("Content-Type", "application/json");
 
             try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
                 writer.write(prospectAttributes);
@@ -136,12 +133,9 @@ public class Outreach {
             // code and subsequent requests will use the refresh token from the initial exchange.
             this.fetchAccessToken();
 
-            final HttpsURLConnection connection = connectTo(this.apiEndpoint + "/prospects");
+            final HttpsURLConnection connection = authorizedConnection("POST", this.apiEndpoint + "/prospects");
 
             connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
-            connection.setRequestProperty("Content-Type", "application/json");
 
             try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
                 writer.write(prospect);
@@ -170,10 +164,7 @@ public class Outreach {
             // code and subsequent requests will use the refresh token from the initial exchange.
             this.fetchAccessToken();
 
-            final HttpsURLConnection connection = connectTo(this.apiEndpoint + "/prospects/" + prospectId);
-
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
+            final HttpsURLConnection connection = authorizedConnection("GET", this.apiEndpoint + "/prospects/" + prospectId);
 
             final JSONObject response;
             try (BufferedReader readStream = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
@@ -223,9 +214,7 @@ public class Outreach {
 
             query = query.substring(0, query.length() - 1); // last character will always be a superfluous ? or &
 
-            final HttpsURLConnection connection = connectTo(this.apiEndpoint + query);
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
+            final HttpsURLConnection connection = authorizedConnection("GET", this.apiEndpoint + query);
 
             final JSONObject response;
             try (BufferedReader readStream = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
@@ -250,10 +239,7 @@ public class Outreach {
             // code and subsequent requests will use the refresh token from the initial exchange.
             this.fetchAccessToken();
 
-            final HttpsURLConnection connection = connectTo(this.apiEndpoint + "/sequences?page[number]=" + page);
-
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
+            final HttpsURLConnection connection = authorizedConnection("GET", this.apiEndpoint + "/sequences?page[number]=" + page);
 
             final JSONObject response;
             try (BufferedReader readStream = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
@@ -280,13 +266,10 @@ public class Outreach {
             // code and subsequent requests will use the refresh token from the initial exchange.
             this.fetchAccessToken();
 
-            final HttpsURLConnection connection = connectTo(this.apiEndpoint + "/sequences/" + sequenceId);
+            final HttpsURLConnection connection = authorizedConnection("POST", this.apiEndpoint + "/sequences/" + sequenceId);
 
             connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
             connection.setRequestProperty("X-HTTP-Method-Override", "PATCH"); // Patch isn't supported in Java's HTTPConnection
-            connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
-            connection.setRequestProperty("Content-Type", "application/json");
 
             try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream())) {
                 writer.write(payload);
@@ -314,10 +297,7 @@ public class Outreach {
             // code and subsequent requests will use the refresh token from the initial exchange.
             this.fetchAccessToken();
 
-            final HttpsURLConnection connection = connectTo(this.apiEndpoint + "/info");
-
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
+            final HttpsURLConnection connection = authorizedConnection("GET", this.apiEndpoint + "/info");
 
             final JSONObject response;
             try (BufferedReader readStream = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
@@ -330,21 +310,28 @@ public class Outreach {
         }
     }
 
-    private HttpsURLConnection connectTo(String urlString) throws MalformedURLException,
-                                                                  IOException,
-                                                                  KeyManagementException,
-                                                                  NoSuchAlgorithmException {
-        return connectTo(new URL(urlString));
+    private HttpsURLConnection connectTo(String verb, String urlString) throws IOException, NoSuchAlgorithmException, KeyManagementException {
+        return connectTo(verb, new URL(urlString));
     }
 
-    private HttpsURLConnection connectTo(URL url) throws IOException, NoSuchAlgorithmException, KeyManagementException {
+    private HttpsURLConnection connectTo(String verb, URL url) throws IOException, NoSuchAlgorithmException, KeyManagementException {
         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 
         if (trustStore != null) {
             connection.setSSLSocketFactory(TrustedSSLSocketFactory.get(trustStore));
             connection.setHostnameVerifier(new TrustedHostnameVerifier(trustStore));
         }
+        
+        connection.setRequestMethod(verb);
 
+        return connection;
+    }
+    
+    private HttpsURLConnection authorizedConnection(String verb, String url) throws IOException, NoSuchAlgorithmException, KeyManagementException {
+    	final HttpsURLConnection connection = connectTo(verb, url);
+        connection.setRequestProperty("Authorization", new String("Bearer " + this.requestBearer));
+        connection.setRequestProperty("Content-Type", "application/json");
+        
         return connection;
     }
 
@@ -367,10 +354,9 @@ public class Outreach {
         		return;
         	}
 
-        	final HttpsURLConnection connection = connectTo(this.authEndpoint + "/oauth/token");
+        	final HttpsURLConnection connection = connectTo("POST", this.authEndpoint + "/oauth/token");
 
             connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
 
             // Use a refresh token if one was previously provided.
             final String token;
