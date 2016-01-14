@@ -100,8 +100,8 @@ filter[personal/name/first]=&lt;String&gt;       | Optional.
 filter[personal/name/last]=&lt;String&gt;        | Optional.
 filter[contact/email]=&lt;String&gt;             | Optional. ECMA URICompontent <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-encodeuricomponent-uricomponent">encoded</a>.
 filter[company/name]=&lt;String&gt;              | Optional.
-filter[metadata/updated/before]=&lt;Int&gt;      | Optional.
-filter[metadata/updated/after]=&lt;Int&gt;       | Optional.
+filter[metadata/updated/before]=&lt;Number&gt;   | Optional.
+filter[metadata/updated/after]=&lt;Number&gt;    | Optional.
 page[number]=&lt;Number&gt;                      | Optional, default: 1.
 page[size]=&lt;Number&gt;                        | Optional, default: 50, maximum: 50.
 </pre>
