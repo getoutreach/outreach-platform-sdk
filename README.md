@@ -19,6 +19,6 @@ This package contains documentation and example code for Outreach's public-facin
 At this time, provisioning an application with an application ID and secret is performed by the Outreach platform team, but will be self provisioned in the future. When you are ready to get started, you will want to provide us with the scopes required, and a redirect URI.
 
 The current scopes allowed include the following:
-- 
+- prospects_update
 
 If you would like more information on our technology or how Outreach can integrate with your existing sales infrastructure, please get in touch with our [platform team](mailto:platform@outreach.io).
