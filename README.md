@@ -1,4 +1,19 @@
-Outreach Platform
+Outreach Platform API
 -----------------
 
-This package contains documentation and example code for Outreach's public-facing API.  Currently access is limited to a closed **BETA**, if you would like more information on our technology or how Outreach can integrate with your existing sales infrastructure please contact our [platform team](mailto:platform@outreach.io).
+Outreach is a communication workflow solution for enterprise sales teams, which can be used as a standalone application, or in conjunction with [Outreach Everywhere](https://outreach.io/everywhere/) (our Chrome extension) to layer functionality on top of other services, including Salesforce, Linkedin, Gmail and more.
+
+As Outreach customer data is stored independently from other services, customers my choose to echange data between their Outreach database and external services, including but not limited to:
+- Their own proprietary databases
+- Third party CRMs (other than SFDC, to which Outreach already provides an integration)
+- Third party data sources
+
+The Outreach Platform API is currently in use by individual customers, and our first official integration partner, [Datanyze](http://www.datanyze.com/).
+
+Currently, the Outreach platform API can be used to read/write data on models within Outreach, currently including:
+- The prospects model
+- The sequences model
+
+This package contains documentation and example code for Outreach's public-facing API. Please take a look around and when you are ready to get started, please request access by filling out our [API Contact Form](http://goo.gl/forms/RWk35DeZAK).
+
+If you would like more information on our technology or how Outreach can integrate with your existing sales infrastructure, please get in touch with our [platform team](mailto:platform@outreach.io).
