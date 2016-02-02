@@ -7,9 +7,9 @@ Currently the Outreach Platform only supports 3rd party OAuth access, which allo
 
 > **NOTE**: This is currently locked-down for the duration of the BETA period
 >           and can only be accessed by an Outreach administrator, please reach
->           out to the sales@ team if you'd like to request access.
+>           out to the platform@outreach.io team if you'd like to request access.
 
-You'll first need to generate a set of application credentials representing you, the relying party.  Go to [here](https://api.outreach.io/oauth/applications/new) and enter the following information:
+You'll first need to generate a set of application credentials representing you, the relying party.  Send an email to platform@outreach.io with the following information:
 * **Application Name** which will be shown to customers during authorization, this should be meaningful and informative.
 * **Redirect URI**(s), which are a whitelist of return-to addresses which you own; following the authorization flow your customers will be redirected here.
 * **Scope**(s), which are a space delimited list of the following permissions (of which your authorization flow may request a subset of your application's available scopes):
