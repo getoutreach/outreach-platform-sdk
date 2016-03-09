@@ -56,7 +56,7 @@ POST https://api.outreach.io/oauth/token
   code=<i>&lt;Authorization_Code&gt;</i>
 </pre>
 
-This will return a json payload with _access\_token_, _refresh\_token_, and _expires_ attributes.  The access token can be used for API requests but will expire after the returned TTL (or if the customer revokes their authorization grant); following which the access token is no longer valid and must be refreshed given the returned refresh token.  In order to generate a new access credential following expiration, you'll need to make a similar request as above but instead of providing the authorization code you provide the refresh token:
+This will return a json payload with _access\_token_, _refresh\_token_, and _expires\_in_ attributes.  The access token can be used for API requests but will expire after the returned TTL (or if the customer revokes their authorization grant); following which the access token is no longer valid and must be refreshed given the returned refresh token.  In order to generate a new access credential following expiration, you'll need to make a similar request as above but instead of providing the authorization code you provide the refresh token:
 
 <pre>
 POST https://api.outreach.io/oauth/token
