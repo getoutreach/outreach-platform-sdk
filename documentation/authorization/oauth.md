@@ -19,6 +19,13 @@ You'll first need to generate a set of application credentials representing you,
   * read_sequences
   * update_sequences
   * read_tags
+  * read_accounts
+  * create_accounts
+  * read_activities
+  * read_mailings
+  * read_mappings
+  * read_plugins
+  * read_users
 
 Once this is complete you'll be given an application identifier and secret.  No Outreach employee will _ever_ ask you for this information, keep these credentials secure!
 
