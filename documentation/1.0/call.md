@@ -18,7 +18,7 @@ Query a set of calls given filters which match a subset of the call's attributes
 <pre>
 <b>Parameters</b>                                  <b>Constraints</b>
 <hr/>
-filter[user/id]=&lt;Number&gt;                   | Optional.
+filter[user/id]=&lt;Number&gt;                   | Optional, default: all users in the org.
 page[number]=&lt;Number&gt;                      | Optional, default: 1.
 page[size]=&lt;Number&gt;                        | Optional, default: 50, maximum: 50.
 </pre>
