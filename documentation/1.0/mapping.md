@@ -5,6 +5,8 @@ Mappings
 
 #### Query by Attributes
 
+> **SCOPE** `read_mappings`
+
 Query a set of mappings given filters which match a subset of the mapping's attributes.  Filters are conjoint, result set is paginated.
 
 > **GET** `https://api.outreach.io/1.0/mappings?<Parameters...>`

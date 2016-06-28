@@ -5,6 +5,8 @@ Users
 
 #### Query by Attributes
 
+> **SCOPE** `update_users`
+
 Query a set of users given filters which match a subset of the user's attributes.  Filters are conjoint, result set is paginated and based on ascending order of the record's last name attribute.
 
 > **GET** `https://api.outreach.io/1.0/users?<Parameters...>`

@@ -7,6 +7,8 @@ Prospects
 
 #### Create
 
+> **SCOPE** `create_prospects`
+
 Create a prospect given the posted JSON payload, owned by the user associated with the OAuth credential.
 
 > **POST** `https://api.outreach.io/1.0/prospects`
@@ -83,11 +85,15 @@ Create a prospect given the posted JSON payload, owned by the user associated wi
 
 #### Fetch by ID
 
+> **SCOPE** `read_prospects`
+
 Returns a single prospect (if found), from the given prospect identifier; where identifier is a Number.
 
 > **GET** `https://api.outreach.io/1.0/prospects/<Identifier>`
 
 #### Query by Attributes
+
+> **SCOPE** `read_prospects`
 
 Query a set of prospects given filters which match a subset of the prospect's attributes.  Filters are conjoint, result set is paginated and based on ascending order of the record's last name attribute.
 
@@ -107,6 +113,8 @@ page[size]=&lt;Number&gt;                        | Optional, default: 50, maximu
 </pre>
 
 ### Update
+
+> **SCOPE** `update_prospects`
 
 Modifies a given prospect with a subset of attributes.
 
