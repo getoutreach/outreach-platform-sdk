@@ -5,6 +5,8 @@ Accounts
 
 #### Create
 
+> **SCOPE** `create_accounts`
+
 Create a account given the posted JSON payload, owned by the user associated with the OAuth credential.
 
 > **POST** `https://api.outreach.io/1.0/accounts`
@@ -36,11 +38,15 @@ Create a account given the posted JSON payload, owned by the user associated wit
 
 #### Fetch by ID
 
+> **SCOPE** `read_accounts`
+
 Returns a single account (if found), from the given account identifier; where identifier is a Number.
 
 > **GET** `https://api.outreach.io/1.0/accounts/<Identifier>`
 
 #### Query by Attributes
+
+> **SCOPE** `read_accounts`
 
 Query a set of accounts given filters which match a subset of the account's attributes.  Filters are conjoint, result set is paginated and based on ascending order on the record's name attribute.
 

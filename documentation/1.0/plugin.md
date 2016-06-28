@@ -5,6 +5,8 @@ Pluggins
 
 #### Query by Attributes
 
+> **SCOPE** `read_plugins`
+
 Query a set of plugins given filters which match a subset of the plugin's attributes.  Filters are conjoint, result set is paginated.
 
 > **GET** `https://api.outreach.io/1.0/mappings?<Parameters...>`

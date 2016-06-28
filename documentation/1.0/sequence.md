@@ -3,6 +3,8 @@ Sequences
 
 #### Query Sequences
 
+> **SCOPE** `read_sequences`
+
 Query all sequences for which the owner of the authorization token has visibility.  Results are paginated and ordered by ascending name.
 
 > **GET** `https://api.outreach.io/1.0/sequences?<Parameters...>`
@@ -42,11 +44,13 @@ page[size]=&lt;Number&gt;                        | Optional, default: 50, maximu
 }
 </pre>
 
-#### Add Prospects
+#### Update
 
-> **PATCH** `https://api.outreach.io/1.0/sequences/<Identifier>`
+> **SCOPE** `update_sequences`
 
 Additively associate existing prospects with an existing sequence.
+
+> **PATCH** `https://api.outreach.io/1.0/sequences/<Identifier>`
 
 <pre>
 <b>Input payload</b>                               <b>Constraints</b>

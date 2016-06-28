@@ -5,11 +5,15 @@ Calls
 
 #### Fetch by ID
 
+> **SCOPE** `read_calls`
+
 Returns a single account (if found), from the given account identifier; where identifier is a Number.
 
 > **GET** `https://api.outreach.io/1.0/calls/<Identifier>`
 
 #### Query by Attributes
+
+> **SCOPE** `read_calls`
 
 Query a set of calls given filters which match a subset of the call's attributes, specifically the user who sourced the call and pagination metadata.
 

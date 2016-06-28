@@ -5,6 +5,8 @@ Activities
 
 #### Query by Attributes
 
+> **SCOPE** `read_activities`
+
 Query a set of activities given filters which match a subset of the activity's attributes.  Filters are conjoint, result set is paginated and based on ascending order of the record's last name attribute.
 
 > **GET** `https://api.outreach.io/1.0/activities?<Parameters...>`
