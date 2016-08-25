@@ -70,12 +70,7 @@ Create a prospect given the posted JSON payload, owned by the user associated wi
         ],                                 |
         custom: [                          |
           &lt;String&gt;,                        | Maximum 255 characters.
-          &lt;String&gt;,                        | Maximum 255 characters.
-          &lt;String&gt;,                        | Maximum 255 characters.
-          &lt;String&gt;,                        | Maximum 255 characters.
-          &lt;String&gt;,                        | Maximum 255 characters.
-          &lt;String&gt;,                        | Maximum 255 characters.
-          &lt;String&gt;                         | Maximum 255 characters.
+          ...                              | Indices correspond to custom1 through custom15 fields, respectively.
         ]                                  |
       }                                    |
     }                                      |
@@ -106,8 +101,8 @@ filter[personal/name/first]=&lt;String&gt;       | Optional.
 filter[personal/name/last]=&lt;String&gt;        | Optional.
 filter[contact/email]=&lt;String&gt;             | Optional. ECMA URICompontent <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-encodeuricomponent-uricomponent">encoded</a>.
 filter[company/name]=&lt;String&gt;              | Optional.
-filter[metadata/updated/before]=&lt;Number&gt;   | Optional.
-filter[metadata/updated/after]=&lt;Number&gt;    | Optional.
+filter[metadata/updated/before]=&lt;String&gt;   | Optional. Format: "yyyy-MM-dd HH:mm:ss"
+filter[metadata/updated/after]=&lt;String&gt;    | Optional. Format: "yyyy-MM-dd HH:mm:ss"
 page[number]=&lt;Number&gt;                      | Optional, default: 1.
 page[size]=&lt;Number&gt;                        | Optional, default: 50, maximum: 50.
 </pre>
