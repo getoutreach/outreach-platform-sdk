@@ -9,7 +9,7 @@ CallDispositions
 
 Query all call dispositions for which the owner of the authorization token has visibility. Results are paginated and ordered by creation time. Querying results by ID is generally unnecessary due to the low cardinality of these records.
 
-> **GET** `https://api.outreach.io/1.0/call_dispsotions`
+> **GET** `https://api.outreach.io/1.0/call_dispositions`
 
 <pre>
 <b>Parameters</b>                                  <b>Constraints</b>
