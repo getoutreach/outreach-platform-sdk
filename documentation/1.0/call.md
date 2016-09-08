@@ -28,7 +28,7 @@ Create a call record given the posted JSON payload, owned by the user associated
       disposition: {                       |
         id: &lt;String&gt;                       | Type is implicitly "CallDisposition"
       },                                   |
-      prospect: {                          | Required.
+      prospect: {                          |
         id: &lt;String&gt;                       | Type is impliticly "Prospect"
       },                                   |
       metadata: {                          |
