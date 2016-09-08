@@ -23,13 +23,13 @@ Create a call record given the posted JSON payload, owned by the user associated
         outbound: &lt;Boolean&gt;                | Required.
       },                                   |
       purpose: {                           |
-        id: &lt;String&gt;                       | Type is implicitly "CallPurpose"
+        id: &lt;String&gt;                       | Type is implicitly "CallPurpose".
       },                                   |
       disposition: {                       |
-        id: &lt;String&gt;                       | Type is implicitly "CallDisposition"
+        id: &lt;String&gt;                       | Type is implicitly "CallDisposition".
       },                                   |
       prospect: {                          |
-        id: &lt;String&gt;                       | Type is impliticly "Prospect"
+        id: &lt;String&gt;                       | Type is impliticly "Prospect".
       },                                   |
       metadata: {                          |
         note: &lt;String&gt;,                    |
