@@ -3,6 +3,42 @@ Calls
 
 > **EXPERIMENTAL**: This is one of the newest features of the API, if you have specific feature-requests for this endpoint please contact platform@outreach.io
 
+#### Create
+
+> **SCOPE** `create_calls`
+
+Create a call record given the posted JSON payload, owned by the user associated with the OAuth credential.
+
+> **POST** `https://api.outreach.io/1.0/calls`
+
+<pre>
+<b>Payload</b>                                     <b>Constraints</b>
+<hr/>
+{                                          |
+  data: {                                  | Required.
+    attributes: {                          | Required.
+      connection: {                        |
+        from:     &lt;String&gt;,                 |
+        to:       &lt;String&gt;,                 |
+        outbound: &lt;Boolean&gt;                 | Required.
+      },                                   |
+      purpose: {                           |
+        id: &lt;String&gt;                        | Type is implicitly "CallPurpose"
+      },                                   |
+      disposition: {                       |
+        id: &lt;String&gt;                        | Type is implicitly "CallDisposition"
+      },                                   |
+      prospect: {                          | Required.
+        id: &lt;String&gt;                        | Type is impliticly "Prospect"
+      },                                   |
+      metadata: {                          |
+        note: &lt;String&gt;,                     |
+      }                                    |
+    }                                      |
+  }                                        |
+}                                          |
+</pre>
+
 #### Fetch by ID
 
 > **SCOPE** `read_calls`
