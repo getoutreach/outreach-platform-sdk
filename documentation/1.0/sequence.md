@@ -58,7 +58,7 @@ Additively associate existing prospects with an existing sequence.
 {                                          |
   data: {                                  | Required.
     relationships: {                       | Required.
-      prospects: [{                        | Required, currently no upper limit on prospects set size (minimum: single entry).
+      prospects: [{                        | Required, maximum 50 prospects per request (minimum: single entry).
         data: {                            | Required.
           id: &lt;String&gt;                     | Required, associated type is implicitly "prospect"
         }                                  |
