@@ -5,7 +5,7 @@ Users
 
 #### Query by Attributes
 
-> **SCOPE** `update_users`
+> **SCOPE** `read_users`
 
 Query a set of users given filters which match a subset of the user's attributes.  Filters are conjoint, result set is paginated and based on ascending order of the record's last name attribute.
 
