@@ -5,7 +5,7 @@ Users
 
 #### Fetch by ID
 
-> SCOPE read_users
+> **SCOPE** read_users
 
 Returns a single Outreach user (if found), from the given user identifier; where identifier is a Number.
 
