@@ -3,9 +3,17 @@ Users
 
 > **EXPERIMENTAL**: This is one of the newest features of the API, if you have specific feature-requests for this endpoint please contact platform@outreach.io
 
+#### Fetch by ID
+
+> **SCOPE** read_users
+
+Returns a single Outreach user (if found), from the given user identifier; where identifier is a Number.
+
+GET https://api.outreach.io/1.0/users/<Identifier>
+
 #### Query by Attributes
 
-> **SCOPE** `update_users`
+> **SCOPE** `read_users`
 
 Query a set of users given filters which match a subset of the user's attributes.  Filters are conjoint, result set is paginated and based on ascending order of the record's last name attribute.
 
