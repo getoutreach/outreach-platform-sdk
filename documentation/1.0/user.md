@@ -3,6 +3,14 @@ Users
 
 > **EXPERIMENTAL**: This is one of the newest features of the API, if you have specific feature-requests for this endpoint please contact platform@outreach.io
 
+#### Fetch by ID
+
+> SCOPE read_users
+
+Returns a single Outreach user (if found), from the given user identifier; where identifier is a Number.
+
+GET https://api.outreach.io/1.0/users/<Identifier>
+
 #### Query by Attributes
 
 > **SCOPE** `read_users`
