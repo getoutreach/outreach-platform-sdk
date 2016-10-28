@@ -1,7 +1,7 @@
 Authorization
 -------------
 
-Currently the Outreach Platform only supports 3rd party OAuth access, which allows you as an application developer to request the ability to perform actions on behalf of a mutual customer.  For more information on OAuth 2.0 (IETF RFC 6749), please read the [specification](https://tools.ietf.org/html/rfc6749).  This document provides a high-level view of the authorization flow, as well as the various endpoints which will grant you access to the public-facing API.
+Currently the Outreach Platform only supports 3rd party OAuth access, which allows you as an application developer to request the ability to perform actions on behalf of a mutual customer.  For more information on OAuth 2.0 (IETF RFC 6749), please read the [specification](https://tools.ietf.org/html/rfc6749). Another helpful document around OAuth2 is from [DigitalOcean](https://www.digitalocean.com/community/tutorials/an-introduction-to-oauth-2) This document provides a high-level view of the authorization flow, as well as the various endpoints which will grant you access to the public-facing API.
 
 ### Provision an Application
 
