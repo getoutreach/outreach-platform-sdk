@@ -101,8 +101,8 @@ filter[personal/name/first]=&lt;String&gt;       | Optional.
 filter[personal/name/last]=&lt;String&gt;        | Optional.
 filter[contact/email]=&lt;String&gt;             | Optional. ECMA URICompontent <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-encodeuricomponent-uricomponent">encoded</a>.
 filter[company/name]=&lt;String&gt;              | Optional.
-filter[metadata/updated/before]=&lt;String&gt;   | Optional. Format: "yyyy-MM-dd".
-filter[metadata/updated/after]=&lt;String&gt;    | Optional. Format: "yyyy-MM-dd".
+filter[metadata/updated/before]=&lt;String&gt;   | Optional. Format: "yyyy-MM-dd" or "yyyy-MM-ddTHH:mm".
+filter[metadata/updated/after]=&lt;String&gt;    | Optional. Format: "yyyy-MM-dd" or "yyyy-MM-ddTHH:mm".
 filter[metadata/opted_out]=&lt;Boolean&gt;       | Optional.
 page[number]=&lt;Number&gt;                      | Optional, default: 1.
 page[size]=&lt;Number&gt;                        | Optional, default: 50, maximum: 50.
