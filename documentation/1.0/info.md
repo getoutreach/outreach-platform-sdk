@@ -15,6 +15,9 @@ Query metadata associated with authorization token, such as associated customer 
     user: {
       email: &lt;String&gt;
     },
+    org: {
+      guid: &lt;String&gt;
+    },
     api: {
       application: &lt;String&gt;,
       permissions: [ &lt;String&gt;, ... ],
