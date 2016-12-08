@@ -59,6 +59,8 @@ Query a set of calls given filters which match a subset of the call's attributes
 <b>Parameters</b>                                  <b>Constraints</b>
 <hr/>
 filter[user/id]=&lt;Number&gt;                   | Optional, default: all users in the org.
+filter[metadata/created/before]=&lt;String&gt;   | Optional. Format: "yyyy-MM-dd" or "yyyy-MM-ddTHH:mm".
+filter[metadata/created/after]=&lt;String&gt;    | Optional. Format: "yyyy-MM-dd" or "yyyy-MM-ddTHH:mm".
 page[number]=&lt;Number&gt;                      | Optional, default: 1.
 page[size]=&lt;Number&gt;                        | Optional, default: 50, maximum: 50.
 </pre>
