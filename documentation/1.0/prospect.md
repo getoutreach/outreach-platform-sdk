@@ -70,7 +70,7 @@ Create a prospect given the posted JSON payload, owned by the user associated wi
         ],                                 |
         custom: [                          |
           &lt;String&gt;,                        | Maximum 255 characters.
-          ...                              | Indices correspond to custom1 through custom15 fields, respectively.
+          ...                              | Indices correspond to custom1 through custom30 fields, respectively.
         ]                                  |
       }                                    |
     }                                      |
