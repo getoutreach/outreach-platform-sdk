@@ -3,7 +3,7 @@ Outreach Platform API
 
 Outreach is a communication workflow solution for enterprise sales teams, which can be used as a standalone application, or in conjunction with [Outreach Everywhere](https://outreach.io/everywhere/) (our Chrome extension) to layer functionality on top of other services, including Salesforce, Linkedin, Gmail and more.
 
-As Outreach customer data is stored independently from other services, customers my choose to echange data between their Outreach database and external services, including but not limited to:
+As Outreach customer data is stored independently from other services, customers my choose to exchange data between their Outreach database and external services, including but not limited to:
 - Their own proprietary databases
 - Third party CRMs (other than SFDC, to which Outreach already provides an integration)
 - Third party data sources
