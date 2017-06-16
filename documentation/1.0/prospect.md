@@ -58,6 +58,12 @@ Create a prospect given the posted JSON payload, owned by the user associated wi
         quora:    &lt;String&gt;,                | W3C URL <a href="http://www.w3.org/Addressing/URL/url-spec.txt">format</a>, Quora domain.
         twitter:  &lt;String&gt;                 | W3C URL <a href="http://www.w3.org/Addressing/URL/url-spec.txt">format</a>, Twitter domain.
       },                                   |
+      stage: {                             |
+        name: &lt;String&gt;                     |
+      },                                   |
+      persona: {                           |
+        name: &lt;String&gt;                     |
+      },                                   |
       metadata: {                          |
         opted_out: &lt;Boolean&gt;,              |
         source: &lt;String&gt;,                  |
