@@ -1,7 +1,7 @@
 Outreach Platform API
 -----------------
 
-Outreach is a communication workflow solution for enterprise sales teams, which can be used as a standalone application, or in conjunction with [Outreach Everywhere](https://outreach.io/everywhere/) (our Chrome extension) to layer functionality on top of other services, including Salesforce, Linkedin, Gmail and more.
+[Outreach](https://outreach.io) is a sales engagement platform for enterprise sales teams.
 
 To get started with the Outreach API, please fill out out the [API Access Request Form](http://goo.gl/forms/RWk35DeZAK)
 
